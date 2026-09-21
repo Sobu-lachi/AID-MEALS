@@ -22,7 +22,9 @@ homeRouter.post('/home', async (req, res)=>{
         });
     }
 
-    const { email, password } = result.data; 
+    const { email, password }: LoginBody = result.data;
+
+    console.log(result.data)
 
     res.json({
         success: true,
