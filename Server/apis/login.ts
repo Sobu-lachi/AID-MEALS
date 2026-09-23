@@ -4,6 +4,8 @@ import express from 'express'
 import z from 'zod';
 import pool from '../db/db.js';
 import argon2 from 'argon2'
+import cookieParser from 'cookie-parser';
+import{randomBytes, createHash} from 'crypto'
 
 const loginRouter = express.Router();
 
@@ -55,7 +57,6 @@ loginRouter.post('/login', async (req, res)=>{
             })
         }
 
-
         // Verifying the password with argon2
         const verifiedPword = await argon2.verify(
             user.password_hash,
@@ -67,6 +68,24 @@ loginRouter.post('/login', async (req, res)=>{
                 message: 'Invalid login credentials'
             })
         }
+
+        const sessionToken= randomBytes(32).toString('hex');
+        const hashedSessionToken = createHash('sha256').update(sessionToken).digest('hex');
+        const sessionExpiry = new Date(Date.now() + 1 * 60 * 60 * 1000); // 1 hour from now
+
+        await pool.query(
+            `INSERT INTO sessions (session_token_hash, user_id, expires_at) VALUES ($1, $2, $3)`,
+            [hashedSessionToken, user.user_id, sessionExpiry]
+        );
+
+        // Setting the session cookie
+        res.cookie('__Host-session', sessionToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            sameSite: 'strict',
+            expires: sessionExpiry,
+            path: '/', // Ensure the cookie is sent for all paths
+        });
 
         // Sending a response to the user
         res.json({
