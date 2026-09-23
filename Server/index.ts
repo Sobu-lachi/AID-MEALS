@@ -1,6 +1,6 @@
 import express from 'express';
 import loginRouter from './apis/login.js';
-import signInRouter from './apis/signIn.js'
+import signUpRouter from './apis/signup.js'
 import pool from './db/db.js';
 
 const app = express();
@@ -14,8 +14,8 @@ app.get('/', (req,res)=>{
 //Api for handling LoginPage
 app.use('/', loginRouter)
 
-//Api for handling signInPage
-app.use('/', signInRouter)
+//Api for handling signUpPage
+app.use('/', signUpRouter)
 
 
 
