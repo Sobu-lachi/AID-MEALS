@@ -28,13 +28,7 @@ signUpRouter.post('/signup', async (req, res)=>{
         const {fname, lname, email, password, phoneNo, school}: signUpDataType = result.data
 
         // Hashing Passworda
-        const passwordHash = await argon2.hash(password, {
-                                    type: argon2.argon2id,
-                                    memoryCost: 19456,
-                                    timeCost: 2,
-                                    parallelism:1,
-                                    hashLength: 16,
-                                    })
+        const passwordHash = await argon2.hash(password, {parallelism:1, hashLength: 16,})
         
         // Checking if the email already exists in the database
         const existingUser = await pool.query(`SELECT email FROM users WHERE email = $1`,
@@ -57,6 +51,7 @@ signUpRouter.post('/signup', async (req, res)=>{
         res.status(201).json({
             message: 'Successfully created an account'
         })
+        
     } catch (error: unknown) {
         res.status(500).json({
             message: 'Server Error',
