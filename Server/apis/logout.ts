@@ -6,7 +6,7 @@ const logoutRouter = express.Router();
 
 logoutRouter.post('/logout', async (req, res) => {
     try {
-        const sessionToken = req.cookies['__Host-session'];
+        const sessionToken = req.cookies.session;
 
         // No session cookie exists
         if (!sessionToken) {
@@ -26,7 +26,7 @@ logoutRouter.post('/logout', async (req, res) => {
         );
 
         // Remove the session cookie from the browser
-        res.clearCookie('__Host-session', {
+        res.clearCookie('session', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',

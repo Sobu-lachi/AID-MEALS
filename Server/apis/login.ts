@@ -1,10 +1,9 @@
-// Add Forgot password later
+// Add Forgot password late
 
 import express from 'express'
 import z from 'zod';
 import pool from '../db/db.js';
-import argon2 from 'argon2'
-import cookieParser from 'cookie-parser';
+import argon2 from 'argon2' 
 import{randomBytes, createHash} from 'crypto'
 
 const loginRouter = express.Router();
@@ -79,9 +78,10 @@ loginRouter.post('/login', async (req, res)=>{
         );
 
         // Setting the session cookie
-        res.cookie('__Host-session', sessionToken, {
+        res.cookie('session', sessionToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+            secure:false,
+            //  process.env.NODE_ENV === 'production'
             sameSite: 'strict',
             expires: sessionExpiry,
             path: '/', // Ensure the cookie is sent for all paths

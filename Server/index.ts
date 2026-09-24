@@ -2,9 +2,13 @@ import express from 'express';
 import loginRouter from './apis/login.js';
 import signUpRouter from './apis/signup.js'
 import pool from './db/db.js';
+import cookieParser from 'cookie-parser';
+import DashboardRouter from './apis/dashboard.js';
+import logoutRouter from './apis/logout.js';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 //Test page
 app.get('/', (req,res)=>{
@@ -17,7 +21,9 @@ app.use('/', loginRouter)
 //Api for handling signUpPage
 app.use('/', signUpRouter)
 
+app.use('/', DashboardRouter)
 
+app.use('/', logoutRouter)
 
 //Testing Server Connection
 async function startServer():Promise<void>{

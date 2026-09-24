@@ -21,7 +21,7 @@ export interface AuthenticatedRequest extends Request {
 
 export async function authenticate( req:AuthenticatedRequest, res:Response, next:NextFunction): Promise<void> {
     try {
-        const sessionToken = req.cookies['__Host-session'];
+        const sessionToken = req.cookies.session;
 
         if (!sessionToken) {
             res.status(401).json({
