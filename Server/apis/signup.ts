@@ -16,7 +16,7 @@ const signUpSchema = z.object({
 
 type signUpDataType = z.infer<typeof signUpSchema>
 
-signUpRouter.post('/signup', async (req, res)=>{
+signUpRouter.post('/signup', async (req, res) => {
     const result = signUpSchema.safeParse(req.body);
 
     try {
