@@ -2,8 +2,6 @@ import express from 'express';
 import { authenticate, type AuthenticatedRequest } from '../middlewares/authenticate.js';
 import pool from '../db/db.js';
 import z from 'zod';
-// Handle network errors
-// Add Forgot password later
 
 
 const profileRouter = express.Router();
@@ -20,8 +18,8 @@ const updateProfileSchema = z.object({
 
 profileRouter.get('/profile', authenticate, async(req:AuthenticatedRequest, res)=>{
     try{
-        const result = await pool.query(`SELECT first_name, last_name, email, phone_number, school, image_url
-            FROM USERS WHERE user_id= $1`, [req.user!.user_id]);
+        const result = await pool.query(`SELECT user_id, first_name, last_name, email, phone_number, school, image_url
+            FROM users WHERE user_id= $1`, [req.user!.user_id]);
 
         const user = result.rows[0]
 

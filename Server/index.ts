@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import DashboardRouter from './apis/dashboard.js';
 import logoutRouter from './apis/logout.js';
 import profileRouter from './apis/profile.js';
+import packageRouter from './apis/packages.js';
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,8 @@ app.use('/', profileRouter)
 
 app.use('/', logoutRouter)
 
+app.use ('/', packageRouter)
+
 //Testing Server Connection
 async function startServer():Promise<void>{
     try {
@@ -43,4 +46,5 @@ async function startServer():Promise<void>{
         process.exit(1)
     }
 }
+// Starting Server
 void startServer();
