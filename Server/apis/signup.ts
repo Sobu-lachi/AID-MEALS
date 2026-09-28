@@ -11,7 +11,7 @@ const signUpSchema = z.object({
     email: z.email('Invalid email address'),
     password: z.string().min(8, 'Must be at least 8 characters'),
     phoneNo: z.string().min(10, "Phone number is too short").max(15, "Phone number is too long"),
-    school: z.string().trim().nonempty("Required field"),
+    school: z.string(),
 });
 
 type signUpDataType = z.infer<typeof signUpSchema>

@@ -6,6 +6,7 @@ type SessionUser = {
     user_id: number;
     email: string;
     user_role: 'customer' | 'admin';
+    first_name: string;
 };
 
 type SessionRow = {
@@ -13,6 +14,7 @@ type SessionRow = {
     email: string;
     user_role: 'customer' | 'admin';
     expires_at: Date;
+    first_name:string;
 };
 
 export interface AuthenticatedRequest extends Request {
@@ -34,7 +36,7 @@ export async function authenticate( req:AuthenticatedRequest, res:Response, next
             .update(sessionToken)
             .digest('hex');
 
-        const result = await pool.query<SessionRow>(`SELECT s.user_id, s.expires_at, u.email, u.user_role
+        const result = await pool.query<SessionRow>(`SELECT s.user_id, s.expires_at, u.email, u.user_role, u.first_name
              FROM sessions s
              INNER JOIN users u
                 ON u.user_id = s.user_id
@@ -60,7 +62,8 @@ export async function authenticate( req:AuthenticatedRequest, res:Response, next
         req.user = {
             user_id: session.user_id,
             email: session.email,
-            user_role: session.user_role
+            user_role: session.user_role,
+            first_name:session.first_name
         };
 
         next();
