@@ -5,7 +5,7 @@ import pool from './db/db.js';
 import cookieParser from 'cookie-parser';
 import DashboardRouter from './apis/dashboard.js';
 import logoutRouter from './apis/logout.js';
-// import profileRouter from './apis/profile.js';
+import profileRouter from './apis/profile.js';
 
 const app = express();
 app.use(express.json());
@@ -24,7 +24,7 @@ app.use('/', signUpRouter)
 
 app.use('/', DashboardRouter)
 
-// app.use('/', profileRouter)
+app.use('/', profileRouter)
 
 app.use('/', logoutRouter)
 
