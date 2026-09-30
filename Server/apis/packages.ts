@@ -1,6 +1,6 @@
 import express from 'express';
 import pool from '../db/db.js';
-import { authenticate, type AuthenticatedRequest } from '../middlewares/authenticate.js';
+import { authenticate} from '../middlewares/authenticate.js';
 
 const packageRouter = express.Router();
 
@@ -25,10 +25,7 @@ packageRouter.get('/packages', authenticate, async (req, res)=>{
 });
 
 
-packageRouter.get(
-    '/:package_id',
-    authenticate,
-    async (req, res) => {
+packageRouter.get('/:package_id',authenticate, async (req, res) => {
         try {
             const packageId = Number(req.params.package_id);
 
